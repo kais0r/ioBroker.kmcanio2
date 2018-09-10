@@ -16,7 +16,7 @@
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "kmcanio",
+    "kmcanio2",
     "Smart Home",
     "home automation"
   ],
@@ -37,7 +37,7 @@
     "test": "node node_modules/mocha/bin/mocha --exit"
   },
   "bugs": {
-    "url": "https://github.com/kais0r/ioBroker.kmcanio/issues"
+    "url": "https://github.com/kais0r/ioBroker.kmcanio2/issues"
   },
   "readmeFilename": "README.md"
 }

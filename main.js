@@ -1,19 +1,19 @@
 /**
  *
- * kmcanio adapter
+ * kmcanio2 adapter
  *
  *
  *  file io-package.json comments:
  *
  *  {
  *      "common": {
- *          "name":         "kmcanio",                  // name has to be set and has to be equal to adapters folder name and main file name excluDigitalInputg extension
+ *          "name":         "kmcanio2",                  // name has to be set and has to be equal to adapters folder name and main file name excluDigitalInputg extension
  *          "version":      "0.0.0",                    // use "Semantic Versioning"! see http://semver.org/
- *          "title":        "Node.js kmcanio Adapter",  // Adapter title shown in User Interfaces
+ *          "title":        "Node.js kmcanio2 Adapter",  // Adapter title shown in User Interfaces
  *          "authors":  [                               // Array of authord
- *              "name <mail@kmcanio.com>"
+ *              "name <mail@kmcanio2.com>"
  *          ]
- *          "desc":         "kmcanio adapter",          // Adapter description shown in User Interfaces. Can be a language object {de:"...",ru:"..."} or a string
+ *          "desc":         "kmcanio2 adapter",          // Adapter description shown in User Interfaces. Can be a language object {de:"...",ru:"..."} or a string
  *          "platform":     "Javascript/Node.js",       // possible values "javascript", "javascript/Node.js" - more coming
  *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
  *          "materialize":  true,                       // support of admin3
@@ -44,8 +44,8 @@ const utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluDigitalInputg extension
-// adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.kmcanio.0
-const adapter = new utils.Adapter('kmcanio');
+// adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.kmcanio2.0
+const adapter = new utils.Adapter('kmcanio2');
 
 var can = require('socketcan');
 var bus = can.createRawChannel("can0", true);
@@ -288,7 +288,7 @@ function main() {
 	//var buf = new Buffer([1,2,3,4,5,6,7,8]);
 	//bus.send({ id: 12, ext: false, data: buf });
 	
-    // in this kmcanio all states changes inside the adapters namespace are subscribed
+    // in this kmcanio2 all states changes inside the adapters namespace are subscribed
     //adapter.subscribeStates('*');
 
 

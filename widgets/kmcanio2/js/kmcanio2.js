@@ -1,5 +1,5 @@
 /*
-    ioBroker.kmcanio Widget-Set
+    ioBroker.kmcanio2 Widget-Set
 
     version: "0.5.0"
 
@@ -28,13 +28,13 @@ $.extend(true, systemDictionary, {
     "Instance":  {"en": "Instance", "de": "Instanz", "ru": "Инстанция"}
 });
 
-// this code can be placed directly in kmcanio.html
-vis.binds.kmcanio = {
+// this code can be placed directly in kmcanio2.html
+vis.binds.kmcanio2 = {
     version: "0.5.0",
     showVersion: function () {
-        if (vis.binds.kmcanio.version) {
-            console.log('Version kmcanio: ' + vis.binds.kmcanio.version);
-            vis.binds.kmcanio.version = null;
+        if (vis.binds.kmcanio2.version) {
+            console.log('Version kmcanio2: ' + vis.binds.kmcanio2.version);
+            vis.binds.kmcanio2.version = null;
         }
     },
 	createWidget: function (widgetID, view, data, style) {
@@ -42,7 +42,7 @@ vis.binds.kmcanio = {
         // if nothing found => wait
         if (!$div.length) {
             return setTimeout(function () {
-                vis.binds.kmcanio.createWidget(widgetID, view, data, style);
+                vis.binds.kmcanio2.createWidget(widgetID, view, data, style);
             }, 100);
         }
 
@@ -59,10 +59,10 @@ vis.binds.kmcanio = {
         // subscribe on updates of value
         if (data.oid) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-                $div.find('.kmcanio-value').html(newVal);
+                $div.find('.kmcanio2-value').html(newVal);
             });
         }
     }
 };
 	
-vis.binds.kmcanio.showVersion();
+vis.binds.kmcanio2.showVersion();

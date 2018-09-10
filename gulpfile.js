@@ -388,7 +388,7 @@ gulp.task('rename', function ()  {
 
     console.log('Try to rename to "' + newname + '"');
     if (!newname) {
-        console.log('Please write the new kmcanio name, like: "gulp rename --name mywidgetset" --author "Author Name"');
+        console.log('Please write the new kmcanio2 name, like: "gulp rename --name mywidgetset" --author "Author Name"');
         process.exit();
     }
     if (newname.indexOf(' ') !== -1) {
@@ -399,30 +399,30 @@ gulp.task('rename', function ()  {
         console.log('Name must be lower case.');
         process.exit();
     }
-    if (fs.existsSync(__dirname + '/admin/kmcanio.png')) {
-        fs.renameSync(__dirname + '/admin/kmcanio.png',              __dirname + '/admin/' + newname + '.png');
+    if (fs.existsSync(__dirname + '/admin/kmcanio2.png')) {
+        fs.renameSync(__dirname + '/admin/kmcanio2.png',              __dirname + '/admin/' + newname + '.png');
     }
-    if (fs.existsSync(__dirname + '/widgets/kmcanio.html')) {
-        fs.renameSync(__dirname + '/widgets/kmcanio.html',           __dirname + '/widgets/' + newname + '.html');
+    if (fs.existsSync(__dirname + '/widgets/kmcanio2.html')) {
+        fs.renameSync(__dirname + '/widgets/kmcanio2.html',           __dirname + '/widgets/' + newname + '.html');
     }
-    if (fs.existsSync(__dirname + '/widgets/kmcanio/js/kmcanio.js')) {
-        fs.renameSync(__dirname + '/widgets/kmcanio/js/kmcanio.js', __dirname + '/widgets/kmcanio/js/' + newname + '.js');
+    if (fs.existsSync(__dirname + '/widgets/kmcanio2/js/kmcanio2.js')) {
+        fs.renameSync(__dirname + '/widgets/kmcanio2/js/kmcanio2.js', __dirname + '/widgets/kmcanio2/js/' + newname + '.js');
     }
-    if (fs.existsSync(__dirname + '/widgets/kmcanio')) {
-        fs.renameSync(__dirname + '/widgets/kmcanio',                __dirname + '/widgets/' + newname);
+    if (fs.existsSync(__dirname + '/widgets/kmcanio2')) {
+        fs.renameSync(__dirname + '/widgets/kmcanio2',                __dirname + '/widgets/' + newname);
     }
     var patterns = [
         {
-            match: /kmcanio/g,
+            match: /kmcanio2/g,
             replacement: newname
         },
         {
-            match: /kmcanio/g,
+            match: /kmcanio2/g,
             replacement: newname
         },
         {
-            match: /Kmcanio/g,
-            replacement: newname ? (newname[0].toUpperCase() + newname.substring(1)) : 'Kmcanio'
+            match: /Kmcanio2/g,
+            replacement: newname ? (newname[0].toUpperCase() + newname.substring(1)) : 'Kmcanio2'
         },
         {
             match: /M.Eng. Franz Kaiser/g,

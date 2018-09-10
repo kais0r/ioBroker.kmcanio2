@@ -1,18 +1,18 @@
 {
     "common": {
-        "name": "kmcanio",
+        "name": "kmcanio2",
         "version": "0.0.1",
         "news": {
             "0.0.1": {
                 "en": "initial adapter"
             }
         },
-		"title": "KM CAN-Bus IO Modules",
+		"title": "KM CAN-Bus IO Modules v2",
         "titleLang": {
-            "en": "Interface with KM CAN IO Modules"
+            "en": "Interface with KM CAN IO Modules v2"
         },
         "desc": {
-            "en": "Interface with KM CAN IO Modules"
+            "en": "Interface with KM CAN IO Modules v2"
         },
         "authors": [
             "M.Eng. Franz Kaiser <franz.kaiser@kaiser-mechatronik.de>"
@@ -25,9 +25,9 @@
         "icon": "kmcanio.png",
         "materialize": true,
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/kais0r/ioBroker.kmcanio/master/admin/kmcanio.png",
-        "keywords": ["kmcanio", "vis", "GUI", "graphical", "scada"],
-        "readme": "https://github.com/kais0r/ioBroker.kmcanio/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/kais0r/ioBroker.kmcanio2/master/admin/kmcanio.png",
+        "keywords": ["kmcanio2", "vis", "GUI", "graphical", "scada"],
+        "readme": "https://github.com/kais0r/ioBroker.kmcanio2/blob/master/README.md",
         "loglevel": "info",
         "type": "general",
         "license": "MIT",

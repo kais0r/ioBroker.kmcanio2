@@ -1,5 +1,5 @@
-![Logo](admin/kmcanio.png)
-# ioBroker.kmcanio
+![Logo](admin/kmcanio2.png)
+# ioBroker.kmcanio2
 =================
 
 This adapter connects KM SmartHome Modules to ioBroker.
