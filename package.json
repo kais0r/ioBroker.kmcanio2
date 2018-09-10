@@ -1,0 +1,43 @@
+{
+  "name": "iobroker.kmcanio2",
+  "version": "0.0.1",
+  "description": "kmcanio2",
+  "author": {
+    "name": "M.Eng. Franz Kaiser",
+    "email": "franz.kaiser@kaiser-mechatronik.de"
+  },
+  "contributors": [
+    {
+      "name": "M.Eng. Franz Kaiser",
+      "email": "franz.kaiser@kaiser-mechatronik.de"
+    }
+  ],
+  "homepage": "https://github.com/kais0r/ioBroker.kmcanio2",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "kmcanio",
+    "Smart Home",
+    "home automation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kais0r/ioBroker.kmcanio2"
+  },
+  "dependencies": {
+	"socketcan":"^2.2.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "mocha": "^4.1.0",
+    "chai": "^4.1.2"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --exit"
+  },
+  "bugs": {
+    "url": "https://github.com/kais0r/ioBroker.kmcanio/issues"
+  },
+  "readmeFilename": "README.md"
+}
