@@ -51,8 +51,7 @@ var can = require('socketcan');
 var bus = can.createRawChannel("can0", true);
 var txPDO1 = new Buffer([0,0,0,0,0,0,0,0]);
 
-var NodeType;
-var NodeID;
+var KnownDevices = [];
 
 
 
@@ -89,6 +88,45 @@ adapter.on('stateChange', function (id, state) {
     // Warning, state can be null if it was deleted
     //adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
 	
+    adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
+	
+	
+	// kmcanio2.0.KMsmartIO_2.RelayOutput.K06
+	
+	var MyID = id.replace(adapter.namespace+".", "");
+	
+	// KMsmartIO_2.RelayOutput.K06
+	var split_array = MyID.split(".");
+	
+	// [0]KMsmartIO_2 [1]RelayOutput [2]K06
+	
+	
+	
+	if( split_array.length==3 ){
+		
+		if( split_array[1]=="RelayOutput"){
+			if( split_array[0].includes("KMsmartIO_") ){
+				
+				var NodeID =  parseInt( split_array[0].replace("KMsmartIO_", "") );
+				
+				var RelayNumber = parseInt( split_array[2].replace("K", "") ) - 1;
+				var RelayByte = RelayNumber>>3;	// = RelayNumber/8
+				var RelayBit  = RelayNumber%8;
+				
+				adapter.log.info('NodeID ' + NodeID );
+				adapter.log.info('RelayNumber ' + RelayNumber );
+				adapter.log.info('RelayByte ' + RelayByte );
+				adapter.log.info('RelayBit ' + RelayBit );
+				
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	/*
 	
 	if( NodeType == "io" ){
 	
@@ -116,7 +154,7 @@ adapter.on('stateChange', function (id, state) {
 		bus.send({ id: txid, ext: false, data: txPDO1 });
 	
 	}
-	
+	*/
 	
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
@@ -143,6 +181,25 @@ adapter.on('ready', function () {
     main();
 });
 
+
+
+
+function SetAndUpdateState( obj_id, obj_name, obj_value ){
+	
+	adapter.setObjectNotExists(obj_id, { 
+		type: 'state', 
+		common: { 
+			name: obj_name, 
+			type: 'boolean'
+		}, 
+		native: {} 
+	});
+	
+	adapter.setState(obj_id, {val: obj_value, ack: true});
+	
+}
+
+
 function main() {
 	
 	
@@ -150,139 +207,122 @@ function main() {
     // adapter.config:
     adapter.log.info('Adapter Instance ID: ' + adapter.namespace);
     
-	NodeType = adapter.config.canioNodeType;
-	NodeID = parseInt(adapter.config.canioNodeID);
-    adapter.log.info('config canioNodeType: ' + NodeType);
-    adapter.log.info('config canioNodeID: ' + NodeID);
+	//canioInterface = adapter.config.canioInterface;
+    //adapter.log.info('config canioInterface: ' + canioInterface);
 	
 	
 	bus.start();
 	
-	// Define Objects:
-	// ---------------------------------------------------------------------------------------------------------------------
-    adapter.setObject('DigitalInput.10', { type: 'state', common: { name: 'Digital Input 1.0', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.11', { type: 'state', common: { name: 'Digital Input 1.1', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.12', { type: 'state', common: { name: 'Digital Input 1.2', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.13', { type: 'state', common: { name: 'Digital Input 1.3', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.14', { type: 'state', common: { name: 'Digital Input 1.4', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.15', { type: 'state', common: { name: 'Digital Input 1.5', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.16', { type: 'state', common: { name: 'Digital Input 1.6', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.17', { type: 'state', common: { name: 'Digital Input 1.7', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.20', { type: 'state', common: { name: 'Digital Input 2.0', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.21', { type: 'state', common: { name: 'Digital Input 2.1', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.22', { type: 'state', common: { name: 'Digital Input 2.2', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.23', { type: 'state', common: { name: 'Digital Input 2.3', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.24', { type: 'state', common: { name: 'Digital Input 2.4', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.25', { type: 'state', common: { name: 'Digital Input 2.5', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.26', { type: 'state', common: { name: 'Digital Input 2.6', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.27', { type: 'state', common: { name: 'Digital Input 2.7', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.30', { type: 'state', common: { name: 'Digital Input 3.0', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.31', { type: 'state', common: { name: 'Digital Input 3.1', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.32', { type: 'state', common: { name: 'Digital Input 3.2', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.33', { type: 'state', common: { name: 'Digital Input 3.3', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.34', { type: 'state', common: { name: 'Digital Input 3.4', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.35', { type: 'state', common: { name: 'Digital Input 3.5', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.36', { type: 'state', common: { name: 'Digital Input 3.6', type: 'boolean', role: 'indicator' }, native: {} });
-    adapter.setObject('DigitalInput.37', { type: 'state', common: { name: 'Digital Input 3.7', type: 'boolean', role: 'indicator' }, native: {} });
-	
-	if( NodeType == "in" ){
-		adapter.setObject('DigitalInput.40', { type: 'state', common: { name: 'Digital Input 4.0', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('DigitalInput.41', { type: 'state', common: { name: 'Digital Input 4.1', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('DigitalInput.42', { type: 'state', common: { name: 'Digital Input 4.2', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('DigitalInput.43', { type: 'state', common: { name: 'Digital Input 4.3', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('T1', { type: 'state', common: { name: '1-Wire Temperatur Sensor 1', type: 'number', role: 'indicator' }, native: {} });
-	}
+	setInterval( function(){ bus.send({ id: 0x080, ext: false, data: new Buffer([0,0,0,0,0,0,0,0]) }); }, 1*1000 );
 	
 	
-	if( NodeType == "io" ){
-		adapter.setObject('RelayOutput.K01', { type: 'state', common: { name: 'Relay Output K1' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K02', { type: 'state', common: { name: 'Relay Output K2' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K03', { type: 'state', common: { name: 'Relay Output K3' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K04', { type: 'state', common: { name: 'Relay Output K4' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K05', { type: 'state', common: { name: 'Relay Output K5' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K06', { type: 'state', common: { name: 'Relay Output K6' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K07', { type: 'state', common: { name: 'Relay Output K7' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K08', { type: 'state', common: { name: 'Relay Output K8' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K09', { type: 'state', common: { name: 'Relay Output K9' , type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K10', { type: 'state', common: { name: 'Relay Output K10', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K11', { type: 'state', common: { name: 'Relay Output K11', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K12', { type: 'state', common: { name: 'Relay Output K12', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K13', { type: 'state', common: { name: 'Relay Output K13', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K14', { type: 'state', common: { name: 'Relay Output K14', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K15', { type: 'state', common: { name: 'Relay Output K15', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K16', { type: 'state', common: { name: 'Relay Output K16', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K17', { type: 'state', common: { name: 'Relay Output K17', type: 'boolean', role: 'indicator' }, native: {} });
-		adapter.setObject('RelayOutput.K18', { type: 'state', common: { name: 'Relay Output K18', type: 'boolean', role: 'indicator' }, native: {} });
-		
-		adapter.subscribeStates('RelayOutput.K01');
-		adapter.subscribeStates('RelayOutput.K02');
-		adapter.subscribeStates('RelayOutput.K03');
-		adapter.subscribeStates('RelayOutput.K04');
-		adapter.subscribeStates('RelayOutput.K05');
-		adapter.subscribeStates('RelayOutput.K06');
-		adapter.subscribeStates('RelayOutput.K07');
-		adapter.subscribeStates('RelayOutput.K08');
-		adapter.subscribeStates('RelayOutput.K09');
-		adapter.subscribeStates('RelayOutput.K10');
-		adapter.subscribeStates('RelayOutput.K11');
-		adapter.subscribeStates('RelayOutput.K12');
-		adapter.subscribeStates('RelayOutput.K13');
-		adapter.subscribeStates('RelayOutput.K14');
-		adapter.subscribeStates('RelayOutput.K15');
-		adapter.subscribeStates('RelayOutput.K16');
-		adapter.subscribeStates('RelayOutput.K17');
-		adapter.subscribeStates('RelayOutput.K18');
-		
-	}
-	
+
 	
 	bus.addListener("onMessage", 
 		function(msg) { 
-			if( msg.id == (0x180 + NodeID) ){
+			
+			if( msg.id > 0x180 && msg.id < 0x280 ){
+				
+				var NodeID = msg.id - 0x180;
+				
+				var NodeType = "";
+				var DeviceName = "";
+				
+				if( NodeID < 0x10 ){
+					NodeType = "io";
+					DeviceName = "KMsmartIO_" + NodeID;
+					
+					if( typeof KnownDevices[DeviceName] === 'undefined' ){
+						
+						KnownDevices[DeviceName] = NodeID;
+						
+						for( var i=1 ; i<=18 ; i++ ){
+							var obj_name = DeviceName+'.RelayOutput.K';
+							if( i<10 ){ obj_name += '0'; }
+							obj_name += i;
+							adapter.setObjectNotExists(obj_name, { type: 'state', common: { name: 'Relay Output K'+i , type: 'boolean' }, native: {} });
+							adapter.subscribeStates(obj_name);
+						}
+						
+					}
+					
+					
+				}else{
+					NodeType = "in";
+					DeviceName = "KMsmartIN_" + NodeID;
+				}
+				
+				// Create a object for Device Name
+				adapter.setObjectNotExists(DeviceName, { 
+					type: 'state', 
+					common: { 
+						name: "KMsmartHomeDevice", 
+						type: 'number'
+					}, 
+					native: {} 
+				});
+				
 				
 				// Same Input Vars for Smart-IN and Smart-IO
-				if(  msg.data[0] & 0x01 ){ adapter.setState('DigitalInput.10', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.10', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x02 ){ adapter.setState('DigitalInput.11', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.11', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x04 ){ adapter.setState('DigitalInput.12', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.12', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x08 ){ adapter.setState('DigitalInput.13', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.13', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x10 ){ adapter.setState('DigitalInput.14', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.14', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x20 ){ adapter.setState('DigitalInput.15', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.15', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x40 ){ adapter.setState('DigitalInput.16', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.16', {val: false, ack: true}); }
-				if(  msg.data[0] & 0x80 ){ adapter.setState('DigitalInput.17', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.17', {val: false, ack: true}); }
+				SetAndUpdateState( DeviceName+".DI1.0", "Digital Input 1.0", (msg.data[0]&0x01)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.1", "Digital Input 1.1", (msg.data[0]&0x02)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.2", "Digital Input 1.2", (msg.data[0]&0x04)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.3", "Digital Input 1.3", (msg.data[0]&0x08)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.4", "Digital Input 1.4", (msg.data[0]&0x10)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.5", "Digital Input 1.5", (msg.data[0]&0x20)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.6", "Digital Input 1.6", (msg.data[0]&0x40)>0 ); 
+				SetAndUpdateState( DeviceName+".DI1.7", "Digital Input 1.7", (msg.data[0]&0x80)>0 ); 
 				
-				if(  msg.data[1] & 0x01 ){ adapter.setState('DigitalInput.20', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.20', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x02 ){ adapter.setState('DigitalInput.21', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.21', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x04 ){ adapter.setState('DigitalInput.22', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.22', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x08 ){ adapter.setState('DigitalInput.23', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.23', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x10 ){ adapter.setState('DigitalInput.24', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.24', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x20 ){ adapter.setState('DigitalInput.25', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.25', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x40 ){ adapter.setState('DigitalInput.26', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.26', {val: false, ack: true}); }
-				if(  msg.data[1] & 0x80 ){ adapter.setState('DigitalInput.27', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.27', {val: false, ack: true}); }
+				SetAndUpdateState( DeviceName+".DI2.0", "Digital Input 2.0", (msg.data[1]&0x01)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.1", "Digital Input 2.1", (msg.data[1]&0x02)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.2", "Digital Input 2.2", (msg.data[1]&0x04)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.3", "Digital Input 2.3", (msg.data[1]&0x08)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.4", "Digital Input 2.4", (msg.data[1]&0x10)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.5", "Digital Input 2.5", (msg.data[1]&0x20)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.6", "Digital Input 2.6", (msg.data[1]&0x40)>0 ); 
+				SetAndUpdateState( DeviceName+".DI2.7", "Digital Input 2.7", (msg.data[1]&0x80)>0 ); 
 				
-				if(  msg.data[2] & 0x01 ){ adapter.setState('DigitalInput.30', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.30', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x02 ){ adapter.setState('DigitalInput.31', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.31', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x04 ){ adapter.setState('DigitalInput.32', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.32', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x08 ){ adapter.setState('DigitalInput.33', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.33', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x10 ){ adapter.setState('DigitalInput.34', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.34', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x20 ){ adapter.setState('DigitalInput.35', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.35', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x40 ){ adapter.setState('DigitalInput.36', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.36', {val: false, ack: true}); }
-				if(  msg.data[2] & 0x80 ){ adapter.setState('DigitalInput.37', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.37', {val: false, ack: true}); }
+				SetAndUpdateState( DeviceName+".DI3.0", "Digital Input 3.0", (msg.data[2]&0x01)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.1", "Digital Input 3.1", (msg.data[2]&0x02)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.2", "Digital Input 3.2", (msg.data[2]&0x04)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.3", "Digital Input 3.3", (msg.data[2]&0x08)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.4", "Digital Input 3.4", (msg.data[2]&0x10)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.5", "Digital Input 3.5", (msg.data[2]&0x20)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.6", "Digital Input 3.6", (msg.data[2]&0x40)>0 ); 
+				SetAndUpdateState( DeviceName+".DI3.7", "Digital Input 3.7", (msg.data[2]&0x80)>0 ); 
 				
 				// Smart-IN specific
 				if( NodeType == "in" ){
-					if(  msg.data[3] & 0x01 ){ adapter.setState('DigitalInput.40', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.40', {val: false, ack: true}); }
-					if(  msg.data[3] & 0x02 ){ adapter.setState('DigitalInput.41', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.41', {val: false, ack: true}); }
-					if(  msg.data[3] & 0x04 ){ adapter.setState('DigitalInput.42', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.42', {val: false, ack: true}); }
-					if(  msg.data[3] & 0x08 ){ adapter.setState('DigitalInput.43', {val: true, ack: true}); }else{ adapter.setState('DigitalInput.43', {val: false, ack: true}); }
+					SetAndUpdateState( DeviceName+".DI4.0", "Digital Input 4.0", (msg.data[3]&0x01)>0 ); 
+					SetAndUpdateState( DeviceName+".DI4.1", "Digital Input 4.1", (msg.data[3]&0x02)>0 ); 
+					SetAndUpdateState( DeviceName+".DI4.2", "Digital Input 4.2", (msg.data[3]&0x04)>0 ); 
+					SetAndUpdateState( DeviceName+".DI4.3", "Digital Input 4.3", (msg.data[3]&0x08)>0 ); 
 					
 					var temp = (msg.data[4] + msg.data[5] * 256) * 0.0625;
-					adapter.setState('T1', {val: temp.toFixed(2), ack: true});
+					
+					
+					adapter.setObjectNotExists(DeviceName+".OneWireBus.T1", { 
+						type: 'state', 
+						common: { 
+							name: "OneWire Tempsensor 1 [°C]", 
+							type: 'number'
+						}, 
+						native: {} 
+					});
+					
+					adapter.setState(DeviceName+".OneWireBus.T1", {val: temp.toFixed(2), ack: true});
+					
+					SetAndUpdateState( DeviceName+".OneWireBus.T1", "OneWire Tempsensor 1 [°C]", temp.toFixed(2) );
 				}
-				
 			}
+			
+			
 		} 
 	);
 	
+	
+	
+	// Timer Test
 	
 	
 	//var buf = new Buffer([1,2,3,4,5,6,7,8]);

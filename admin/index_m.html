@@ -79,96 +79,17 @@
 			
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select class="value" id="canioNodeType">
-                        <option value="in" class="translate">KM Smart IN</option>
-                        <option value="io" class="translate">KM Smart IO</option>
+                    <select class="value" id="canioInterface">
+                        <option value="can0" class="translate">can0</option>
+                        <option value="can1" class="translate">can1</option>
+                        <option value="can2" class="translate">can2</option>
+                        <option value="can3" class="translate">can3</option>
+                        <option value="can4" class="translate">can4</option>
+                        <option value="can5" class="translate">can5</option>
+                        <option value="can6" class="translate">can6</option>
+                        <option value="can7" class="translate">can7</option>
                     </select>
-                    <label for="canioNodeType" class="translate">Device Type</label>
-                    <!-- Important: label must come directly after select. Label is important. -->
-                </div>
-                <div class="input-field col s12 m4">
-                    <select class="value" id="canioNodeID">
-                        <option value="1" class="translate">0x01</option>
-                        <option value="2" class="translate">0x02</option>
-                        <option value="3" class="translate">0x03</option>
-                        <option value="4" class="translate">0x04</option>
-                        <option value="5" class="translate">0x05</option>
-                        <option value="6" class="translate">0x06</option>
-                        <option value="7" class="translate">0x07</option>
-                        <option value="8" class="translate">0x08</option>
-                        <option value="9" class="translate">0x09</option>
-                        <option value="10" class="translate">0x0A</option>
-                        <option value="11" class="translate">0x0B</option>
-                        <option value="12" class="translate">0x0C</option>
-                        <option value="13" class="translate">0x0D</option>
-                        <option value="14" class="translate">0x0E</option>
-                        <option value="15" class="translate">0x0F</option>
-                        <option value="16" class="translate">0x10</option>
-                        <option value="17" class="translate">0x11</option>
-                        <option value="18" class="translate">0x12</option>
-                        <option value="19" class="translate">0x13</option>
-                        <option value="20" class="translate">0x14</option>
-                        <option value="21" class="translate">0x15</option>
-                        <option value="22" class="translate">0x16</option>
-                        <option value="23" class="translate">0x17</option>
-                        <option value="24" class="translate">0x18</option>
-                        <option value="25" class="translate">0x19</option>
-                        <option value="26" class="translate">0x1A</option>
-                        <option value="27" class="translate">0x1B</option>
-                        <option value="28" class="translate">0x1C</option>
-                        <option value="29" class="translate">0x1D</option>
-                        <option value="30" class="translate">0x1E</option>
-                        <option value="31" class="translate">0x1F</option>
-                        <option value="32" class="translate">0x20</option>
-                        <option value="33" class="translate">0x21</option>
-                        <option value="34" class="translate">0x22</option>
-                        <option value="35" class="translate">0x23</option>
-                        <option value="36" class="translate">0x24</option>
-                        <option value="37" class="translate">0x25</option>
-                        <option value="38" class="translate">0x26</option>
-                        <option value="39" class="translate">0x27</option>
-                        <option value="40" class="translate">0x28</option>
-                        <option value="41" class="translate">0x29</option>
-                        <option value="42" class="translate">0x2A</option>
-                        <option value="43" class="translate">0x2B</option>
-                        <option value="44" class="translate">0x2C</option>
-                        <option value="45" class="translate">0x2D</option>
-                        <option value="46" class="translate">0x2E</option>
-                        <option value="47" class="translate">0x2F</option>
-                        <option value="48" class="translate">0x30</option>
-                        <option value="49" class="translate">0x31</option>
-                        <option value="50" class="translate">0x32</option>
-                        <option value="51" class="translate">0x33</option>
-                        <option value="52" class="translate">0x34</option>
-                        <option value="53" class="translate">0x35</option>
-                        <option value="54" class="translate">0x36</option>
-                        <option value="55" class="translate">0x37</option>
-                        <option value="56" class="translate">0x38</option>
-                        <option value="57" class="translate">0x39</option>
-                        <option value="58" class="translate">0x3A</option>
-                        <option value="59" class="translate">0x3B</option>
-                        <option value="60" class="translate">0x3C</option>
-                        <option value="61" class="translate">0x3D</option>
-                        <option value="62" class="translate">0x3E</option>
-                        <option value="63" class="translate">0x3F</option>
-                        <option value="64" class="translate">0x40</option>
-                        <option value="65" class="translate">0x41</option>
-                        <option value="66" class="translate">0x42</option>
-                        <option value="67" class="translate">0x43</option>
-                        <option value="68" class="translate">0x44</option>
-                        <option value="69" class="translate">0x45</option>
-                        <option value="70" class="translate">0x46</option>
-                        <option value="71" class="translate">0x47</option>
-                        <option value="72" class="translate">0x48</option>
-                        <option value="73" class="translate">0x49</option>
-                        <option value="74" class="translate">0x4A</option>
-                        <option value="75" class="translate">0x4B</option>
-                        <option value="76" class="translate">0x4C</option>
-                        <option value="77" class="translate">0x4D</option>
-                        <option value="78" class="translate">0x4E</option>
-                        <option value="79" class="translate">0x4F</option>
-                    </select>
-                    <label for="canioNodeID" class="translate">>Node ID</label>
+                    <label for="canioInterface" class="translate">CAN Interface</label>
                     <!-- Important: label must come directly after select. Label is important. -->
                 </div>
             </div>
